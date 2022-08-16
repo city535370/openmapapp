@@ -12,7 +12,7 @@
    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
     <script>
 	var center = [23,123];	
-	var zoom = 18; // 0 - 18
+	var zoom = 16; // 0 - 16
 
 var map = L.map('map').setView(center, zoom);
 
@@ -48,10 +48,12 @@ L.control.layers(mapLayers).addTo(map); // 加入地圖切換控制項
 
 // setView 可以設定地圖座標
 // watch 則是持續監聽使用者的位置
-map.locate({setView: true, watch: true, enableHighAccuracy: true, timeout: 180000});
 
-
-
+function lol(){
+	map.locate({setView: true, watch: true, maxZoom: 18});
+}
+lol();
+setInterval(lol, 60000);
 
 const popup = L.popup();
 
@@ -59,7 +61,7 @@ function onMapClick(e) {
   let lat = e.latlng.lat; // 緯度
   let lng = e.latlng.lng; // 經度
   ThunkableWebviewerExtension.postMessage(lat + "," + lng);
-  myLocation.distanceTo(bookstore);
+  //myLocation.distanceTo(bookstore);
   popup
     .setLatLng(e.latlng)
     .setContent(`緯度：${lat}<br/>經度：${lng}`)
@@ -75,15 +77,17 @@ map.on('locationerror', onLocationError);
 
 //var marker;
 
+
 const marker = L.marker(center, {
   opacity: 1.0
 }).addTo(map);
 
 function onLocationFound(e) {
+  var myLocation = e.latlng // 使用者位置
   let lat = e.latlng.lat; // 緯度
   let lng = e.latlng.lng; // 經度
   ThunkableWebviewerExtension.postMessage(lat + "," + lng);
-   //var myLocation = e.latlng // 使用者位置
+  
   marker.setLatLng(e.latlng); // 移動 marker
    
 /*  
