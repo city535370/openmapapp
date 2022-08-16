@@ -12,7 +12,7 @@
    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
     <script>
 	var center = [23,123];	
-	var zoom = 16; // 0 - 16
+	var zoom = 18; // 0 - 16
 
 var map = L.map('map').setView(center, zoom);
 
@@ -49,11 +49,9 @@ L.control.layers(mapLayers).addTo(map); // 加入地圖切換控制項
 // setView 可以設定地圖座標
 // watch 則是持續監聽使用者的位置
 
-function lol(){
-	map.locate({setView: true, watch: true, maxZoom: 18});
-}
-lol();
-setInterval(lol, 60000);
+
+map.locate({setView: true, watch: true, maxZoom: 18, maximumAge:180000});
+
 
 const popup = L.popup();
 
